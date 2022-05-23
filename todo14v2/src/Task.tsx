@@ -4,7 +4,7 @@ import {Delete} from '@mui/icons-material';
 import IconButton from '@mui/material/IconButton';
 import Checkbox from '@mui/material/Checkbox';
 import {TaskStatuses, TaskType} from './api/todolists-api'
-import {deleteTasksTC} from "./state/tasks-reducer";
+import {deleteTasksTC, updateTaskTC, updateTaskTitleTC} from "./state/tasks-reducer";
 import {useDispatch} from "react-redux";
 
 type TaskPropsType = {
@@ -21,11 +21,11 @@ export const Task = React.memo((props: TaskPropsType) => {
 
     const onChangeHandler = useCallback((e: ChangeEvent<HTMLInputElement>) => {
         let newIsDoneValue = e.currentTarget.checked
-        props.changeTaskStatus(props.task.id, newIsDoneValue ? TaskStatuses.Completed : TaskStatuses.New, props.todolistId)
+        dispatch(updateTaskTC(props.todolistId,props.task.id,newIsDoneValue ? TaskStatuses.Completed : TaskStatuses.New))
     }, [props.task.id, props.todolistId]);
 
     const onTitleChangeHandler = useCallback((newValue: string) => {
-        props.changeTaskTitle(props.task.id, newValue, props.todolistId)
+        dispatch(updateTaskTitleTC(props.todolistId,props.task.id,newValue))
     }, [props.task.id, props.todolistId]);
 
     return <div key={props.task.id} className={props.task.status === TaskStatuses.Completed ? 'is-done' : ''}>

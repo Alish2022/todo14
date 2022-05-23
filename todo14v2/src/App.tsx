@@ -67,7 +67,7 @@ function App() {
     }, []);
 
     const addTodolist = useCallback((title: string) => {
-        dispatch(createTodolistTC('title','ss'));
+        dispatch(createTodolistTC(title));
     }, [dispatch]);
 
     return (

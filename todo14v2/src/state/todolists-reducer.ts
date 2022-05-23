@@ -25,6 +25,7 @@ export type SetTodolistsActionType = {
     todolists: Array<TodolistType>
 }
 
+
 type ActionsType = RemoveTodolistActionType | AddTodolistActionType
     | ChangeTodolistTitleActionType
     | ChangeTodolistFilterActionType | SetTodolistsActionType
@@ -88,6 +89,7 @@ export const setTodolistAC = (todolists: Array<TodolistType>): SetTodolistsActio
     return {type: 'SET-TODOLISTS', todolists}
 }
 
+
 //thunk
 
 export const fetchTodolistsTC=()=>{
@@ -99,7 +101,7 @@ export const fetchTodolistsTC=()=>{
     }
 }
 
-export const createTodolistTC=(title:string,todolistId:string)=>{
+export const createTodolistTC=(title:string)=>{
     return (dispatch:Dispatch)=> {
         todolistsAPI.createTodolist(title).then(res => {
             let todos = res.data.data.item
@@ -108,4 +110,19 @@ export const createTodolistTC=(title:string,todolistId:string)=>{
     }
 }
 
+export const deleteTodolistTC=(todolistId:string)=>{
+    return (dispatch:Dispatch)=> {
+        todolistsAPI.deleteTodolist(todolistId).then(res => {
+            dispatch(removeTodolistAC(todolistId))
+        })
+    }
+}
+
+export const updateTodolistTitleTC=(todolistId:string, title:string)=>{
+    return (dispatch:Dispatch)=> {
+        todolistsAPI.updateTodolist(todolistId,title).then(res => {
+           dispatch(changeTodolistTitleAC(todolistId,title))
+        })
+    }
+}
 
